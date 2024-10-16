@@ -1,4 +1,4 @@
-export const transactionTypeDef = `#graphql
+const transactionTypeDef = `#graphql
   type Transaction {
     _id: ID!
     userId: ID!

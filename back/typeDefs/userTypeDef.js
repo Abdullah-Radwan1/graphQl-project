@@ -1,40 +1,42 @@
-export const UserTypeDef = `#graphql
-
-type User {
+const userTypeDef = `#graphql
+  type User {
     _id: ID!
     username: String!
     name: String!
     password: String!
     profilePicture: String
     gender: String!
+    transactions: [Transaction!]
   }
 
-type Query  { 
-
-users: [User!]
-authUser: User
-user(userID:ID):User
+  type Query {
+  authUser: User
+  user(userId: ID!): User
+  users: [User!]!  # Add this line to define the users query
 }
 
-type Mutation {
 
-signUp(input:signUpInput!) : User 
-login(input:loginInput!): User
-logout: logoutResponse
-}
-input signUpInput {
+  type Mutation {
+    signUp(input: SignUpInput!): User
+    login(input: LoginInput!): User
+    logout: LogoutResponse
+  }
+
+  input SignUpInput {
     username: String!
     name: String!
     password: String!
     gender: String!
   }
 
-  input loginInput {
+  input LoginInput {
     username: String!
     password: String!
   }
 
-  type logoutResponse {
+  type LogoutResponse {
     message: String!
   }
 `;
+
+export default userTypeDef;

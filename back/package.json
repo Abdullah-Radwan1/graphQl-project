@@ -2,6 +2,7 @@
  "dependencies": {
   "@apollo/server": "^4.11.0",
   "@graphql-tools/merge": "^9.0.7",
+  "apollo-server-express": "^3.13.0",
   "bcryptjs": "^2.4.3",
   "connect-mongodb-session": "^5.0.0",
   "dotenv": "^16.4.5",
@@ -16,7 +17,6 @@
  "name": "back",
  "version": "1.0.0",
  "main": "index.js",
- "devDependencies": {},
  "scripts": {
   "start": "node index.js",
   "dev": "nodemon index.js"
