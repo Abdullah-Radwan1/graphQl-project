@@ -46,6 +46,26 @@ export const transactionsResolver = {
     throw new Error("Error getting transaction");
    }
   },
+  updateTransaction: async (_, { input }) => {
+   try {
+    const updatedTransaction = TransactionModel.findByIdAndUpdate(input.transactionId, input, {
+     new: true,
+    });
+    return updatedTransaction;
+   } catch (error) {
+    console.error("Error updating transaction:", error);
+    throw new Error("Error updating transaction");
+   }
+  },
+  deleteTransaction: async (_, { transactionId }) => {
+   try {
+    const deletedTransaction = TransactionModel.findByIdAndDelete(transactionId);
+    return deletedTransaction;
+   } catch (error) {
+    console.error("Error deleting transaction:", error);
+    throw new Error("Error deleting transaction");
+   }
+  },
  },
 };
 
