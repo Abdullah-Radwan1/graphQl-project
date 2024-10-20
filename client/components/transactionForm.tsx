@@ -135,17 +135,14 @@ const TransactionForm: React.FC = () => {
 
     {/* DATE */}
     <div className="w-full flex-1">
-     <label
-      className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
-      htmlFor="date"
-     >
+     <label className=" text-white text-xs font-bold mb-2" htmlFor="date">
       Date
      </label>
      <input
       type="date"
       name="date"
       id="date"
-      className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-[11px] px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+      className="w-full bg-gray-200 text-gray-700 border rounded py-[11px] px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
       required
      />
     </div>
@@ -153,7 +150,7 @@ const TransactionForm: React.FC = () => {
 
    {/* SUBMIT BUTTON */}
    <button
-    className="text-white font-bold w-full rounded px-4 py-2 bg-gradient-to-br from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600 disabled:opacity-70 disabled:cursor-not-allowed"
+    className="text-white font-bold w-full rounded px-4 py-2 bg-primary  text-[var(--priamry)]"
     type="submit"
    >
     Add Transaction

@@ -28,7 +28,7 @@ const TransactionPage = () => {
 
  return (
   <div className="h-screen max-w-4xl mx-auto flex flex-col items-center">
-   <p className="md:text-4xl text-2xl lg:text-4xl font-bold text-center relative z-50 mb-4 mr-4 bg-gradient-to-r from-pink-600 via-indigo-500 to-pink-400 inline-block text-transparent bg-clip-text">
+   <p className="md:text-4xl text-2xl lg:text-4xl font-bold text-center relative z-50 mb-4 mr-4 text-white">
     Update this transaction
    </p>
    <form
@@ -67,7 +67,7 @@ const TransactionPage = () => {
       </label>
       <div className="relative">
        <select
-        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        className=" appearance-none w-full bg-gray-200   text-gray-700 py-3 px-4 x rounded  "
         id="paymentType"
         name="paymentType"
         onChange={handleInputChange}
@@ -89,7 +89,7 @@ const TransactionPage = () => {
       </label>
       <div className="relative">
        <select
-        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        className="block appearance-none w-full bg-gray-200 border  text-gray-700 py-3 px-4 pr-8 rounded "
         id="category"
         name="category"
         onChange={handleInputChange}
@@ -100,15 +100,6 @@ const TransactionPage = () => {
         <option value={"expense"}>Expense</option>
         <option value={"investment"}>Investment</option>
        </select>
-       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-        <svg
-         className="fill-current h-4 w-4"
-         xmlns="http://www.w3.org/2000/svg"
-         viewBox="0 0 20 20"
-        >
-         <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-        </svg>
-       </div>
       </div>
      </div>
 
@@ -121,7 +112,7 @@ const TransactionPage = () => {
        Amount($)
       </label>
       <input
-       className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+       className=" block w-full bg-gray-200 text-gray-700   rounded py-3 px-4 "
        id="amount"
        name="amount"
        type="number"
@@ -142,7 +133,7 @@ const TransactionPage = () => {
        Location
       </label>
       <input
-       className="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+       className="appearance-none  w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 "
        id="location"
        name="location"
        type="text"
@@ -174,8 +165,8 @@ const TransactionPage = () => {
     </div>
     {/* SUBMIT BUTTON */}
     <button
-     className="text-white font-bold w-full rounded px-4 py-2 bg-gradient-to-br
-          from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600"
+     className="text-white font-bold w-full rounded px-4 py-2 bg-primary
+         "
      type="submit"
     >
      Update Transaction

@@ -4,42 +4,34 @@ import { CreditCard } from "lucide-react"; // MdOutlinePayments equivalent
 import { Coins } from "lucide-react"; // FaSackDollar equivalent
 import { Trash } from "lucide-react"; // FaTrash equivalent
 import { Edit3 } from "lucide-react"; // HiPencilAlt equivalent
-
 import Link from "next/link";
-
-const categoryColorMap = {
- saving: "from-green-700 to-green-400",
- expense: "from-pink-800 to-pink-600",
- investment: "from-blue-700 to-blue-400",
- // Add more categories and corresponding color classes as needed
-};
 
 const Card = () => {
  return (
-  <div className={`rounded-md p-4 bg-gradient-to-br `}>
+  <div className={`rounded-md p-4 bg-gray-200 text-black `}>
    <div className="flex flex-col gap-3">
     <div className="flex flex-row items-center justify-between">
-     <h2 className="text-lg font-bold text-white">Saving</h2>
+     <h2 className="text-lg font-bold ">Saving</h2>
      <div className="flex items-center gap-2">
-      <Trash className={"cursor-pointer"} />
+      <Trash className={"text-orange-500"} />
       <Link href={`/transaction/123`}>
-       <Edit3 className="cursor-pointer" size={20} />
+       <Edit3 className="text-primary" size={20} />
       </Link>
      </div>
     </div>
-    <p className="text-white flex items-center gap-1">
+    <p className="flex items-center gap-1">
      <FileText />
      Description: Salary
     </p>
-    <p className="text-white flex items-center gap-1">
+    <p className="flex items-center gap-1">
      <CreditCard />
      Payment Type: Cash
     </p>
-    <p className="text-white flex items-center gap-1">
+    <p className="flex items-center gap-1">
      <Coins />
      Amount: $150
     </p>
-    <p className="text-white flex items-center gap-1">
+    <p className="flex items-center gap-1">
      <MapPin />
      Location: New York
     </p>
