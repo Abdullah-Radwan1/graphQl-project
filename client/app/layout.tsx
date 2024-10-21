@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import Provider from "@/components/Provider";
 
 export const metadata: Metadata = {
  title: "Create Next App",
@@ -14,7 +16,9 @@ export default function RootLayout({
 }>) {
  return (
   <html lang="en">
-   <body>{children}</body>
+   <Provider>
+    <body>{children}</body>
+   </Provider>
   </html>
  );
 }

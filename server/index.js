@@ -9,9 +9,17 @@ import dotenv from "dotenv";
 import passport from "passport";
 import ConnectMongoDBSession from "connect-mongodb-session";
 import session from "express-session";
+import cors from "cors";
 dotenv.config();
 const app = express();
 
+app.use(
+ "/graphql",
+ cors({
+  credentials: true,
+  origin: "http://localhost:3000",
+ })
+);
 const httpServer = http.createServer(app);
 const server = new ApolloServer({
  typeDefs: mergedDefs,
@@ -40,11 +48,16 @@ const connect = async () => {
 app.use(
  session({
   secret: process.env.SECRET,
-  cookie: { maxAge: 1000 * 60, httpOnly: true, secure: true, sameSite: "strict" },
+  cookie: {
+   maxAge: 1000 * 60,
+   httpOnly: true,
+   secure: true,
+   sameSite: "strict",
+  },
   store: store,
   resave: false,
   saveUninitialized: false,
- }),
+ })
 );
 app.use(passport.initialize);
 app.use(passport.session());
@@ -59,7 +72,7 @@ app.use(
  // an Apollo Server instance and optional configuration options
  expressMiddleware(server, {
   context: async ({ req, res }) => buildContext({ req, res }),
- }),
+ })
 );
 connect();
 await server.start();

@@ -16,7 +16,9 @@ const TransactionPage = () => {
   console.log("formData", formData);
  };
 
- const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+ const handleInputChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+ ) => {
   const { name, value } = e.target;
   setFormData((prevFormData) => ({
    ...prevFormData,
