@@ -1,9 +1,9 @@
 import { transactions } from "../dummy/data.js";
 import TransactionModel from "../models/transactionModel.js";
 
-export const transactionsResolver = {
+const transactionsResolver = {
  Query: {
-  Alltransactions: async (_, _, context) => {
+  transactions: async (_, __, context) => {
    try {
     const authenticated = context.getUser();
     if (!authenticated) {
@@ -48,9 +48,13 @@ export const transactionsResolver = {
   },
   updateTransaction: async (_, { input }) => {
    try {
-    const updatedTransaction = TransactionModel.findByIdAndUpdate(input.transactionId, input, {
-     new: true,
-    });
+    const updatedTransaction = TransactionModel.findByIdAndUpdate(
+     input.transactionId,
+     input,
+     {
+      new: true,
+     }
+    );
     return updatedTransaction;
    } catch (error) {
     console.error("Error updating transaction:", error);
@@ -59,7 +63,8 @@ export const transactionsResolver = {
   },
   deleteTransaction: async (_, { transactionId }) => {
    try {
-    const deletedTransaction = TransactionModel.findByIdAndDelete(transactionId);
+    const deletedTransaction =
+     TransactionModel.findByIdAndDelete(transactionId);
     return deletedTransaction;
    } catch (error) {
     console.error("Error deleting transaction:", error);

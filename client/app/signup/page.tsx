@@ -4,16 +4,22 @@ import RadioButton from "@/components/radio";
 import Link from "next/link";
 import React, { useState } from "react";
 import { Lock, PersonStanding, User } from "lucide-react";
-const page = () => {
+import { SIGN_UP } from "@/graphql/mutations/userMut";
+import { useMutation } from "@apollo/client";
+import toast from "react-hot-toast";
+
+const Page = () => {
+ const [signUpFunc, { loading }] = useMutation(SIGN_UP);
+
  const [signUpData, setSignUpData] = useState({
   name: "",
   username: "",
   password: "",
   gender: "",
  });
+ console.log(signUpData.name);
  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   const { name, value, type } = e.target;
-
   if (type === "radio") {
    setSignUpData((prevData) => ({
     ...prevData,
@@ -26,17 +32,29 @@ const page = () => {
    }));
   }
  };
- const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
-  console.log(signUpData);
+  try {
+   await signUpFunc({
+    variables: { input: signUpData },
+   });
+   toast.success("Signup successful!");
+  } catch (err: any) {
+   toast.error(`Signup failed: ${err.message || "An error occurred"}`);
+   console.error("Signup error:", err);
+  }
  };
+
  return (
   <div>
    <div className="h-screen flex justify-center items-center">
     <div className="flex rounded-lg overflow-hidden z-50 bg-gray-300">
      <div className="w-full bg-gray-100 min-w-80 sm:min-w-96 flex items-center justify-center">
       <div className="max-w-md w-full p-6">
-       <h1 className="text-3xl font-semibold mb-6 text-black text-center">Sign Up</h1>
+       <h1 className="text-3xl font-semibold mb-6 text-black text-center">
+        Sign Up
+       </h1>
        <h1 className="text-sm font-semibold mb-6 text-gray-500 text-center">
         Join to keep track of your expenses
        </h1>
@@ -47,7 +65,7 @@ const page = () => {
          name="name"
          value={signUpData.name}
          onChange={handleChange}
-         icon={User} // Pass the relevant icon component here
+         icon={User}
         />
         <Input
          label="Username"
@@ -61,7 +79,7 @@ const page = () => {
          label="Password"
          id="password"
          name="password"
-         type="password" // You can specify input type like "password" here
+         type="password"
          value={signUpData.password}
          onChange={handleChange}
          icon={Lock}
@@ -89,10 +107,9 @@ const page = () => {
          <button
           type="submit"
           className="w-full bg-black text-white p-2 rounded-md"
-          // disabled={loading}
+          disabled={loading}
          >
-          {/* {loading ? "Loading..." : "Sign Up"} */}
-          signature
+          {loading ? "Loading..." : "Sign Up"}
          </button>
         </div>
        </form>
@@ -112,4 +129,4 @@ const page = () => {
  );
 };
 
-export default page;
+export default Page;

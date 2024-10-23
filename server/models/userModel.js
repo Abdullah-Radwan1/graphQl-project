@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
  {
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
    enum: ["male", "female"],
   },
  },
- { timestamps: true },
+ { timestamps: true }
 );
 
 const UserModel = mongoose.model("UserModel", userSchema);
