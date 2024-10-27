@@ -1,4 +1,7 @@
+import { CREATE_TRANSACTION } from "@/graphql/mutations/transactionMut";
+import { useMutation } from "@apollo/client";
 import React, { FormEvent } from "react";
+import toast from "react-hot-toast";
 
 interface TransactionData {
  description: string;
@@ -10,6 +13,8 @@ interface TransactionData {
 }
 
 const TransactionForm: React.FC = () => {
+ const [createTransactionFunc, { loading }] = useMutation(CREATE_TRANSACTION);
+
  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
@@ -24,8 +29,15 @@ const TransactionForm: React.FC = () => {
    location: formData.get("location") as string,
    date: formData.get("date") as string,
   };
+  try {
+   await createTransactionFunc({ variables: { input: transactionData } });
 
-  console.log("transactionData", transactionData);
+   form.reset();
+   toast.success("Transaction created successfully");
+  } catch (error: any) {
+   toast.error(error.message);
+  }
+
   // You can now send transactionData to an API or process it as needed.
  };
 
@@ -150,6 +162,7 @@ const TransactionForm: React.FC = () => {
 
    {/* SUBMIT BUTTON */}
    <button
+    disabled={loading}
     className="text-white font-bold w-full rounded px-4 py-2 bg-primary  text-[var(--priamry)]"
     type="submit"
    >

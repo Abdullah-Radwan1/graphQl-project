@@ -6,10 +6,13 @@ import Cards from "@/components/Cards";
 import TransactionForm from "@/components/transactionForm";
 
 import { LogOut } from "lucide-react";
+import { LOGOUT } from "@/graphql/mutations/userMut";
+import { useMutation } from "@apollo/client";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const HomePage = () => {
+ const [logoutFunc, { loading }] = useMutation(LOGOUT);
  const chartData = {
   labels: ["Saving", "Expense", "Investment"],
   datasets: [
@@ -30,11 +33,13 @@ const HomePage = () => {
   ],
  };
 
- const handleLogout = () => {
-  console.log("Logging out...");
+ const handleLogout = async () => {
+  try {
+   await logoutFunc();
+  } catch (error) {
+   console.error("Logout error:", error);
+  }
  };
-
- const loading = false;
 
  return (
   <>

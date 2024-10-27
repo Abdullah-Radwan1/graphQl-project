@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const transactionSchema = new mongoose.Schema({
  userId: {
   type: mongoose.Schema.Types.ObjectId,
-  ref: "User",
+  ref: "UserModel",
   required: true,
  },
  description: {

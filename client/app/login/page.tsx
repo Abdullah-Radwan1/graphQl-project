@@ -3,12 +3,17 @@ import Input from "@/components/Input";
 
 import Link from "next/link";
 import React, { useState } from "react";
-import { Lock, PersonStanding, User } from "lucide-react";
+import { Lock, PersonStanding } from "lucide-react";
+import { useMutation } from "@apollo/client";
+import { LOGIN } from "@/graphql/mutations/userMut";
+import toast from "react-hot-toast";
 const page = () => {
  const [loginData, setLoginData] = useState({
   username: "",
   password: "",
  });
+
+ const [loginFunc, { data, loading }] = useMutation(LOGIN);
  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   const { name, value } = e.target;
 
@@ -17,9 +22,16 @@ const page = () => {
    [name]: value,
   }));
  };
- const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
-  console.log(loginData);
+  try {
+   await loginFunc({
+    variables: { input: loginData },
+   });
+   toast.success("logged in successfuly");
+  } catch (error: any) {
+   toast.error(error.message || "error occured");
+  }
  };
  return (
   <div>
@@ -27,7 +39,9 @@ const page = () => {
     <div className="flex rounded-lg overflow-hidden z-50 bg-gray-300">
      <div className="w-full bg-gray-100 min-w-80 sm:min-w-96 flex items-center justify-center">
       <div className="max-w-md w-full p-6">
-       <h1 className="text-3xl font-semibold mb-6 text-black text-center">login </h1>
+       <h1 className="text-3xl font-semibold mb-6 text-black text-center">
+        login{" "}
+       </h1>
        <h1 className="text-sm font-semibold mb-6 text-gray-500 text-center">
         Join to keep track of your expenses
        </h1>
@@ -54,10 +68,9 @@ const page = () => {
          <button
           type="submit"
           className="w-full bg-black text-white p-2 rounded-md"
-          // disabled={loading}
+          disabled={loading}
          >
-          {/* {loading ? "Loading..." : "Sign Up"} */}
-          Login
+          {loading ? "Loading..." : "Login"}
          </button>
         </div>
        </form>

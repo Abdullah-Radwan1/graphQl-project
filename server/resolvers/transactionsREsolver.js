@@ -37,15 +37,16 @@ const transactionsResolver = {
    try {
     const newTransaction = new TransactionModel({
      ...input,
-     userId: context.getUser._id,
+     userId: context.getUser()._id, // Corrected: call getUser() as a function
     });
     await newTransaction.save();
     return newTransaction;
    } catch (error) {
-    console.error("Error getting transaction:", error);
-    throw new Error("Error getting transaction");
+    console.error("Error creating transaction:", error);
+    throw new Error("Error creating transaction");
    }
   },
+
   updateTransaction: async (_, { input }) => {
    try {
     const updatedTransaction = TransactionModel.findByIdAndUpdate(

@@ -12,8 +12,10 @@ import mergedDefs from "./typeDefs/typeDefs.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import UserModel from "./models/userModel.js";
-
+import { buildContext } from "graphql-passport";
+import { configurePassport } from "./passport/passport.js";
 dotenv.config();
+configurePassport();
 const app = express();
 
 app.use(
@@ -91,17 +93,7 @@ app.use(
  "/graphql",
  express.json(),
  expressMiddleware(server, {
-  context: async ({ req, res }) => ({
-   req,
-   res,
-   login: (user) =>
-    new Promise((resolve, reject) => {
-     req.login(user, (err) => {
-      if (err) return reject(err);
-      resolve();
-     });
-    }),
-  }),
+  context: async ({ req, res }) => buildContext({ req, res }),
  })
 );
 
