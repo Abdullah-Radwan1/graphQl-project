@@ -13,7 +13,9 @@ interface TransactionData {
 }
 
 const TransactionForm: React.FC = () => {
- const [createTransactionFunc, { loading }] = useMutation(CREATE_TRANSACTION);
+ const [createTransactionFunc, { loading }] = useMutation(CREATE_TRANSACTION, {
+  refetchQueries: ["GetTransactions"],
+ });
 
  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
