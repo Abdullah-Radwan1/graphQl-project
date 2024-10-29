@@ -72,9 +72,7 @@ const userResolver = {
   logout: async (_, __, context) => {
    try {
     await context.logout();
-    await context.req.session.destroy((error) => {
-     throw new Error("error loging out");
-    });
+    await context.req.session.destroy();
     context.res.clearCookie("connect.sid");
     return { message: "Logged out successfully" };
    } catch (error) {

@@ -49,13 +49,12 @@ const transactionsResolver = {
 
   updateTransaction: async (_, { input }) => {
    try {
-    const updatedTransaction = TransactionModel.findByIdAndUpdate(
+    const updatedTransaction = await TransactionModel.findByIdAndUpdate(
      input.transactionId,
      input,
-     {
-      new: true,
-     }
+     { new: true }
     );
+
     return updatedTransaction;
    } catch (error) {
     console.error("Error updating transaction:", error);

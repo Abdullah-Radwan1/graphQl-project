@@ -12,7 +12,7 @@ import { useMutation } from "@apollo/client";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const HomePage = () => {
- const [logoutFunc, { loading }] = useMutation(LOGOUT);
+ const [logoutFunc, { loading, client }] = useMutation(LOGOUT);
  const chartData = {
   labels: ["Saving", "Expense", "Investment"],
   datasets: [
@@ -36,6 +36,7 @@ const HomePage = () => {
  const handleLogout = async () => {
   try {
    await logoutFunc();
+   client.clearStore();
   } catch (error) {
    console.error("Logout error:", error);
   }

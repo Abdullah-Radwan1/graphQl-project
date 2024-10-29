@@ -43,7 +43,7 @@ const Card = ({
        <Trash onClick={handlefunction} className={"text-orange-500"} />
       )}
 
-      <Link href={`/transactions/${_id}`}>
+      <Link href={`transactions/${_id}`}>
        <Edit3 className="text-primary" size={20} />
       </Link>
      </div>
