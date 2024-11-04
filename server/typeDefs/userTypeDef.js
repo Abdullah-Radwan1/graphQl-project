@@ -3,17 +3,18 @@ const userTypeDef = `#graphql
     _id: ID!
     username: String!
     name: String!
-    password: String!
     profilePicture: String
     gender: String!
     transactions: [Transaction!]
   }
 
   type Query {
-  authUser: User
-  user(userId: ID!): User
-  users: [User!]!  # Add this line to define the users query
-}
+    authUser: User
+    user(userId: ID!): User
+    users: [User!]!  # Add this line to define the users query
+  }
+
+
 
 
   type Mutation {
