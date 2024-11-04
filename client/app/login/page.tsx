@@ -2,12 +2,27 @@
 import Input from "@/components/Input";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Lock, PersonStanding } from "lucide-react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { LOGIN } from "@/graphql/mutations/userMut";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { GET_AUTHENTICATED_USER } from "@/graphql/queries/userQuery";
 const page = () => {
+ const router = useRouter();
+ const {
+  data: authuser,
+  error,
+  loading: authloading,
+ } = useQuery(GET_AUTHENTICATED_USER);
+
+ useEffect(() => {
+  if (!authloading && authuser) {
+   router.push("/");
+  }
+ }, [authuser, error, authloading, router]);
+
  const [loginData, setLoginData] = useState({
   username: "",
   password: "",
@@ -29,6 +44,7 @@ const page = () => {
     variables: { input: loginData },
    });
    toast.success("logged in successfuly");
+   router.push("/");
   } catch (error: any) {
    toast.error(error.message || "error occured");
   }

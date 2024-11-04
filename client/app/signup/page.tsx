@@ -2,13 +2,27 @@
 import Input from "@/components/Input";
 import RadioButton from "@/components/radio";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Lock, PersonStanding, User } from "lucide-react";
 import { SIGN_UP } from "@/graphql/mutations/userMut";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { GET_AUTHENTICATED_USER } from "@/graphql/queries/userQuery";
 
 const Page = () => {
+ const router = useRouter();
+ const {
+  data: authuser,
+  error,
+  loading: authloading,
+ } = useQuery(GET_AUTHENTICATED_USER);
+
+ useEffect(() => {
+  if (!authloading && authuser) {
+   router.push("/");
+  }
+ }, [authuser, error, authloading, router]);
  const [signUpFunc, { loading }] = useMutation(SIGN_UP);
 
  const [signUpData, setSignUpData] = useState({
@@ -40,6 +54,7 @@ const Page = () => {
     variables: { input: signUpData },
    });
    toast.success("Signup successful!");
+   router.push("/");
   } catch (err: any) {
    toast.error(`Signup failed: ${err.message || "An error occurred"}`);
    console.error("Signup error:", err);

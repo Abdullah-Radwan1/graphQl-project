@@ -1,21 +1,34 @@
 "use client";
 import { UPDATE_TRANSACTION } from "@/graphql/mutations/transactionMut";
-import { useMutation } from "@apollo/client";
+import { GET_AUTHENTICATED_USER } from "@/graphql/queries/userQuery";
+import { useMutation, useQuery } from "@apollo/client";
 import { useParams, useRouter } from "next/navigation";
-import React, { FormEvent, FormEventHandler, useState } from "react";
+import React, { FormEvent, FormEventHandler, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const TransactionPage = () => {
+ const {
+  data: authuser,
+  error,
+  loading: authloading,
+ } = useQuery(GET_AUTHENTICATED_USER);
  const router = useRouter();
+ console.log(authuser);
+ useEffect(() => {
+  if (error) {
+   router.push("/login");
+  }
+ }, [authuser, error, authloading, router]);
+
  const [updateTransactionFunc, { loading, data }] = useMutation(
   UPDATE_TRANSACTION,
   {
-   refetchQueries: ["GetTransactions"],
+   refetchQueries: ["GetTransactions", "TransactionStats"],
   }
  );
  const { id } = useParams();
  console.log(data);
- console.log(id);
+
  const [formData, setFormData] = useState({
   description: "",
   paymentType: "",
@@ -55,9 +68,9 @@ const TransactionPage = () => {
  // if (loading) return <TransactionFormSkeleton />;
 
  return (
-  <div className="h-screen max-w-4xl mx-auto flex flex-col items-center">
-   <p className="md:text-4xl text-2xl lg:text-4xl font-bold text-center relative z-50 mb-4 mr-4 text-white">
-    Update this transaction
+  <div className="mt-[3rem] h-screen max-w-4xl mx-auto flex flex-col items-center">
+   <p className=" mb-12 md:text-4xl text-2xl lg:text-4xl font-bold text-center relative  mr-4 text-white">
+    Update transaction
    </p>
    <form
     className="w-full max-w-lg flex flex-col gap-5 px-3 "
@@ -145,6 +158,7 @@ const TransactionPage = () => {
        name="amount"
        type="number"
        placeholder="150"
+       required
        value={formData.amount}
        onChange={handleInputChange}
       />
@@ -168,6 +182,7 @@ const TransactionPage = () => {
        placeholder="New York"
        value={formData.location}
        onChange={handleInputChange}
+       required
       />
      </div>
 

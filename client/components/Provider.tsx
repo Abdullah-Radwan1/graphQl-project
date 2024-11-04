@@ -1,11 +1,20 @@
 "use client";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import React from "react";
-const client = new ApolloClient({
+
+// Create and export Apollo Client instance
+export const client = new ApolloClient({
  uri: "http://localhost:4000/graphql",
  cache: new InMemoryCache(),
  credentials: "include",
 });
+
+// Optional: Create an initializeApollo function if dynamic reinitialization is needed
+export function initializeApollo() {
+ return client;
+}
+
+// Provider component for wrapping your app
 const Provider = ({ children }: { children: React.ReactNode }) => {
  return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };
