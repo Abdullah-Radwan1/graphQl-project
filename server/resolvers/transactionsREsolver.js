@@ -1,4 +1,5 @@
 import TransactionModel from "../models/transactionModel.js";
+import UserModel from "../models/userModel.js";
 
 const transactionsResolver = {
  Query: {
@@ -102,6 +103,17 @@ const transactionsResolver = {
    }
   },
  },
+ Transaction: {
+  user: async (parent) => {
+   try {
+    // Use the userId from the parent transaction to fetch the user
+    const user = await UserModel.findById(parent.userId);
+    return user;
+   } catch (error) {
+    console.error(error);
+    throw new Error(error.message || "Internal server error");
+   }
+  },
+ },
 };
-
 export default transactionsResolver;

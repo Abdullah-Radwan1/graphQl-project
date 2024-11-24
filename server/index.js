@@ -34,7 +34,7 @@ const server = new ApolloServer({
 });
 
 await server.start(); // This is required before using expressMiddleware
-
+//creating sesion collection in mongoDB
 const mongoStore = ConnectMongoDBSession(session);
 const store = new mongoStore({
  collection: "sessions",

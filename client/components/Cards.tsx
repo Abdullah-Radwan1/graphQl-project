@@ -10,7 +10,7 @@ import {
 const Cards = () => {
  const { data, loading } = useQuery(GET_TRANSACTIONS);
  const { data: AuthenticatedUserFunc } = useQuery(GET_AUTHENTICATED_USER);
- console.log(data);
+ console.log("sss", AuthenticatedUserFunc?.authUser?._id);
  console.log("data", data);
  const { data: userAndTransFunc } = useQuery(GET_USER_AND_TRANSACTIONS, {
   variables: { userId: AuthenticatedUserFunc?.authUser?._id },

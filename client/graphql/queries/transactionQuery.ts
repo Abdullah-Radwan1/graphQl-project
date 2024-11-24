@@ -22,3 +22,23 @@ export const GET_TRANSACTION_STATISTICS = gql`
   }
  }
 `;
+
+export const GET_TRANSACTION = gql`
+ query GetTransaction($id: ID!) {
+  # $id the the variable passed from the client
+  transaction(transactionId: $id) {
+   _id
+   description
+   paymentType
+   category
+   amount
+   location
+   date
+   user {
+    name
+    username
+    profilePicture
+   }
+  }
+ }
+`;

@@ -1,12 +1,16 @@
 "use client";
+import TransactionFormSkeleton from "@/components/skeleton";
 import { UPDATE_TRANSACTION } from "@/graphql/mutations/transactionMut";
+import { GET_TRANSACTION } from "@/graphql/queries/transactionQuery";
 import { GET_AUTHENTICATED_USER } from "@/graphql/queries/userQuery";
 import { useMutation, useQuery } from "@apollo/client";
 import { useParams, useRouter } from "next/navigation";
-import React, { FormEvent, FormEventHandler, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const TransactionPage = () => {
+ const { id } = useParams();
+
  const {
   data: authuser,
   error,
@@ -26,16 +30,19 @@ const TransactionPage = () => {
    refetchQueries: ["GetTransactions", "TransactionStats"],
   }
  );
- const { id } = useParams();
- console.log(data);
+ const { loading: transLoading, data: transData } = useQuery(GET_TRANSACTION, {
+  variables: { id },
+ });
+
+ console.log(transData);
 
  const [formData, setFormData] = useState({
-  description: "",
-  paymentType: "",
-  category: "",
-  amount: "",
-  location: "",
-  date: "",
+  description: data?.transaction?.description || "",
+  paymentType: data?.transaction?.paymentType || "",
+  category: data?.transaction?.category || "",
+  amount: data?.transaction?.amount || "",
+  location: data?.transaction?.location || "",
+  date: data?.transaction?.date || "",
  });
 
  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -64,9 +71,26 @@ const TransactionPage = () => {
    [name]: value,
   }));
  };
-
+ useEffect(() => {
+  if (transData) {
+   setFormData({
+    description: transData?.transaction?.description || "",
+    paymentType: transData?.transaction?.paymentType || "",
+    category: transData?.transaction?.category || "",
+    amount: transData?.transaction?.amount || "",
+    location: transData?.transaction?.location || "",
+    date: transData?.transaction?.date || "",
+   });
+  }
+ }, [transData]);
+ useEffect(() => {
+  if (authloading) return; // Don't run while loading
+  if (!authuser || error) {
+   router.push("/login");
+  }
+ }, [authuser, error, authloading, router]);
  // if (loading) return <TransactionFormSkeleton />;
-
+ if (transLoading) return <TransactionFormSkeleton />;
  return (
   <div className="mt-[3rem] h-screen max-w-4xl mx-auto flex flex-col items-center">
    <p className=" mb-12 md:text-4xl text-2xl lg:text-4xl font-bold text-center relative  mr-4 text-white">
