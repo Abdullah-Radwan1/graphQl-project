@@ -61,8 +61,8 @@ app.use(
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, // 1 day
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Set secure to true only in production
-      sameSite: "strict",
+      secure: true, // Set secure to true only in production
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
     store: store,
     resave: false,
