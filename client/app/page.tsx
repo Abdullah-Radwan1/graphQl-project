@@ -55,6 +55,7 @@ const HomePage = () => {
     try {
       await logoutFunc();
       client.clearStore();
+      Cookies.remove("isLoggedIn");
       router.push("/login");
     } catch (error) {
       console.error("Logout error:", error);
