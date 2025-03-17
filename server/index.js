@@ -19,56 +19,56 @@ configurePassport();
 const app = express();
 
 app.use(
- cors({
-  credentials: true,
-  origin: process.env.CORS_ORIGIN,
- })
+  cors({
+    credentials: true,
+    origin: true,
+  })
 );
 
 const httpServer = http.createServer(app);
 
 const server = new ApolloServer({
- typeDefs: mergedDefs,
- resolvers: mergedResolvers,
- plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  typeDefs: mergedDefs,
+  resolvers: mergedResolvers,
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 
 await server.start(); // This is required before using expressMiddleware
 //creating sesion collection in mongoDB
 const mongoStore = ConnectMongoDBSession(session);
 const store = new mongoStore({
- collection: "sessions",
- uri: process.env.MONGO_URI,
+  collection: "sessions",
+  uri: process.env.MONGO_URI,
 });
 
 store.on("error", (error) => {
- console.log(error);
+  console.log(error);
 });
 
 const connect = async () => {
- try {
-  mongoose.connect(process.env.MONGO_URI);
-  console.log("Connected to DB");
- } catch (err) {
-  console.error("MongoDB connection error:", err);
- }
+  try {
+    mongoose.connect(process.env.MONGO_URI);
+    console.log("Connected to DB");
+  } catch (err) {
+    console.error("MongoDB connection error:", err);
+  }
 };
 
 // Use sessions
 
 app.use(
- session({
-  secret: process.env.SECRET,
-  cookie: {
-   maxAge: 1000 * 60 * 60 * 24, // 1 day
-   httpOnly: true,
-   secure: process.env.NODE_ENV === "production", // Set secure to true only in production
-   sameSite: "strict",
-  },
-  store: store,
-  resave: false,
-  saveUninitialized: false,
- })
+  session({
+    secret: process.env.SECRET,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Set secure to true only in production
+      sameSite: "strict",
+    },
+    store: store,
+    resave: false,
+    saveUninitialized: false,
+  })
 );
 
 // Initialize passport
@@ -76,30 +76,30 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser((user, done) => {
- done(null, user.id); // Serialize user ID into session
+  done(null, user.id); // Serialize user ID into session
 });
 
 passport.deserializeUser(async (id, done) => {
- try {
-  const user = await UserModel.findById(id); // Find user by ID
-  done(null, user);
- } catch (err) {
-  done(err, null);
- }
+  try {
+    const user = await UserModel.findById(id); // Find user by ID
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
 });
 
 // Apply Apollo Server middleware with express
 app.use(
- "/graphql",
- express.json(),
- expressMiddleware(server, {
-  context: async ({ req, res }) => buildContext({ req, res }),
- })
+  "/graphql",
+  express.json(),
+  expressMiddleware(server, {
+    context: async ({ req, res }) => buildContext({ req, res }),
+  })
 );
 
 connect();
 
 // Listen to HTTP server
 httpServer.listen({ port: 4000 }, () =>
- console.log(`🚀 Server ready at http://localhost:4000/graphql`)
+  console.log(`🚀 Server ready at http://localhost:4000/graphql`)
 );
