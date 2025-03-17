@@ -40,14 +40,13 @@ const store = new mongoStore({
   collection: "sessions",
   uri: process.env.MONGO_URI,
 });
-
 store.on("error", (error) => {
   console.log(error);
 });
 
 const connect = async () => {
   try {
-    mongoose.connect(process.env.MONGO_URI);
+    mongoose.connect(process.env.MONGO_URI as string);
     console.log("Connected to DB");
   } catch (err) {
     console.error("MongoDB connection error:", err);
