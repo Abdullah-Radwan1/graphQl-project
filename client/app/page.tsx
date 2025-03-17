@@ -13,10 +13,12 @@ import { useEffect, useState } from "react";
 import { ChartData, stat } from "@/types/transactionsType";
 import { useRouter } from "next/navigation";
 import { GET_AUTHENTICATED_USER } from "@/graphql/queries/userQuery";
+import Cookies from "js-cookie";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const HomePage = () => {
+  const isLoggedIn = Cookies.get("isLoggedIn");
   const {
     data: authuser,
     error,
@@ -25,7 +27,7 @@ const HomePage = () => {
   const router = useRouter();
   console.log(authuser);
   useEffect(() => {
-    if (!authuser) {
+    if (!isLoggedIn) {
       router.push("/login");
     }
   }, [authuser, error, authloading, router]);
