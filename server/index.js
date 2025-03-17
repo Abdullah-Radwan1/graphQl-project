@@ -46,7 +46,7 @@ store.on("error", (error) => {
 
 const connect = async () => {
   try {
-    mongoose.connect(process.env.MONGO_URI as string);
+    mongoose.connect(process.env.MONGO_URI);
     console.log("Connected to DB");
   } catch (err) {
     console.error("MongoDB connection error:", err);
